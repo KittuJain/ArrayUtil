@@ -5,3 +5,4 @@ practiseStructures.c
 expr_assert.h
 sampleTest.c
 sampleTestRunner.c
+arrayUtilTestRunner.c
