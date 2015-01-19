@@ -47,3 +47,14 @@ ArrayUtil resize(ArrayUtil util, int length) {
 	util.length = util_new_length;
 	return util;
 }
+
+int findIndex(ArrayUtil util, void* element){
+	int count;
+	float* _element = element;
+	float* base_ptr = util.base;
+	for(count = 0; count < util.length; count++){
+		if(base_ptr[count] == *_element)
+			return count;
+	}
+	return -1;
+}
