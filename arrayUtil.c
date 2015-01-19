@@ -41,3 +41,9 @@ ArrayUtil create(int typeSize, int length){
 	return a;
 }
 
+ArrayUtil resize(ArrayUtil util, int length) {
+	int util_new_length = (util.typeSize)*length;
+	util.base = realloc(util.base, util_new_length);
+	util.length = util_new_length;
+	return util;
+}

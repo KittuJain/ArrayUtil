@@ -97,3 +97,10 @@ void test_creates_new_array_containing_all_elements_0_and_gives_0_for_different_
 	assertEqual(areEqual(a, b), 0);
 }
 
+void test_resizes_already_created_array (){
+	int length = 5;
+	ArrayUtil util, new_util;
+	util = create(sizeof(int), length);
+	new_util = resize(util, 10);
+	assertEqual(areEqual(util, new_util), 0);
+}
