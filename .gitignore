@@ -1,5 +1,6 @@
 *.o
 *.exe
+*.sh
 practiseStructures.c
 expr_assert.h
 sampleTest.c
