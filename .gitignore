@@ -1,4 +1,4 @@
-*.h
+*.o
 *.exe
 practiseStructures.c
 expr_assert.h
