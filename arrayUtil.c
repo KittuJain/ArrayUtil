@@ -16,14 +16,16 @@ int isTypeSizeSame (ArrayUtil a, ArrayUtil b){
 
 int areBaseValuesSame (ArrayUtil a, ArrayUtil b){
 	int i;
+	char *util1 = ((char*)a.base);
+	char *util2 = ((char*)b.base);
+
 	if(a.length != b.length)
 		return 0;
 	for(i = 0; i < (a.length*a.typeSize); i++){
-		if(((char*)a.base)[i] != ((char*)b.base)[i])
+		if(util1[i] != util2[i])
 			return 0;
 	}
 	return 1;
-
 }
 
 int areEqual(ArrayUtil a, ArrayUtil b){
@@ -33,12 +35,8 @@ int areEqual(ArrayUtil a, ArrayUtil b){
 }
 
 ArrayUtil create(int typeSize, int length){
-	void *base;
-	ArrayUtil a;
-	a.base = calloc(length,typeSize);
-	a.length = length;
-	a.typeSize = typeSize;
-	return a;
+	ArrayUtil util1 = {calloc(length,typeSize), typeSize, length};
+	return util1;
 }
 
 ArrayUtil resize(ArrayUtil util, int length) {
@@ -79,12 +77,3 @@ void dispose(ArrayUtil util){
 	util.length = 0;
 }
 
-void* findFirst(ArrayUtil util, MatchFunc *match, void* hint){
-	int i;
-	int* base = (int*)util.base;
-	for(i = 0; i < util.length; i++){
-		if(match(hint,(void*)&base[i])==1)
-			return (void*)&base[i];
-	}
-	return 0;
-}
