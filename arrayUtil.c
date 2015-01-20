@@ -42,18 +42,33 @@ ArrayUtil create(int typeSize, int length){
 }
 
 ArrayUtil resize(ArrayUtil util, int length) {
+	int count;
+	ArrayUtil arr;
 	int util_new_length = (util.typeSize)*length;
-	util.base = realloc(util.base, util_new_length);
-	util.length = length;
-	return util;
+	arr.base = calloc(length, util.typeSize);
+	arr.length = length;
+	for(count = 0; count < util_new_length; count++){
+		((char*)arr.base)[count] = ((char*)util.base)[count];
+	}
+	return arr;
 }
 
 int findIndex(ArrayUtil util, void* element){
 	int count;
-	float* _element = element;
-	float* base_ptr = util.base;
-	for(count = 0; count < util.length; count++){
-		if(base_ptr[count] == *_element)
+	int length = sizeof(element);
+	
+	for(count = 0; count < (util.length*util.typeSize); count++){
+		if(length == sizeof(int)){
+			if(((int*)util.base)[count] == *((int*)element))
+				return count;
+		}
+		if(length == sizeof(float)){
+			if(((float*)util.base)[count] == *((float*)element))
+				return count;
+		}
+	}
+	for(count = 0; count < (util.length*util.typeSize); count++){
+		if(((char*)util.base)[count] == *((char*)element))
 			return count;
 	}
 	return -1;
@@ -62,4 +77,14 @@ int findIndex(ArrayUtil util, void* element){
 void dispose(ArrayUtil util){
 	free(util.base);
 	util.length = 0;
+}
+
+void* findFirst(ArrayUtil util, MatchFunc *match, void* hint){
+	int i;
+	int* base = (int*)util.base;
+	for(i = 0; i < util.length; i++){
+		if(match(hint,(void*)&base[i])==1)
+			return (void*)&base[i];
+	}
+	return 0;
 }

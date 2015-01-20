@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "arrayUtil.h"
+
+
 ArrayUtil util;
 // util = create(sizeof(int), 5);
 
@@ -249,17 +251,9 @@ void test_resizes_already_created_array (){
 	int length = 5;
 	ArrayUtil util, new_util;
 	util = create(sizeof(int), length);
-	assertEqual(((int*)util.base)[0], 0);
-	assertEqual(((int*)util.base)[4], 0);
-	assertEqual(((int*)util.base)[1], 0);
-	assertEqual(((int*)util.base)[3], 0);
 	new_util = resize(util, 10);
 	assertEqual(new_util.length, 10);
 	assertEqual(areEqual(util, new_util), 0);
-	assertEqual(((int*)util.base)[2], 0);
-	assertEqual(((int*)util.base)[4], 0);
-	assertEqual(((int*)util.base)[7], 0);
-	assertEqual(((int*)util.base)[3], 0);
 	free(util.base);
 }
 
@@ -317,6 +311,21 @@ void test_findIndex_returns_4_for_float_array_if_search_element_is_at_4th_locati
 	assertEqual(findIndex(util, &element),4);
 }
 
+void test_findIndex_returns_2_for_char_array_if_search_element_is_at_2nd_location (){
+	ArrayUtil util;
+	int length = 3;
+	int typeSize = sizeof(char);
+	char *baseTempOfA;
+	char element = 'h';
+	util = create(typeSize,length);
+	baseTempOfA = ((char*)util.base); 
+
+	baseTempOfA[0] = 't';
+	baseTempOfA[1] = 'a';
+	baseTempOfA[2] = 'h';
+	assertEqual(findIndex(util, &element),2);
+}
+
 void test_dispose_frees_memory_allocated_for_arrayUtil (){
 	ArrayUtil util;
 	int length = 2;
@@ -329,3 +338,26 @@ void test_dispose_frees_memory_allocated_for_arrayUtil (){
 	dispose(util);
 }
 
+int isGreaterThanHint (void* hint, void* element) {
+	return (int*)element > (int*)hint;
+}
+
+void test_findFirst_gives_occurence_of_criteria_match (){
+	ArrayUtil util;
+	int length = 6;
+	int typeSize = sizeof(int);
+	int *baseTempOfA;
+	int element = 34;
+	int hint = 2;
+	int (*match)(void*, void*) = &isGreaterThanHint;
+	util = create(typeSize,length);
+	baseTempOfA = ((int*)util.base); 
+
+	baseTempOfA[0] = 4;
+	baseTempOfA[1] = 2;
+	baseTempOfA[2] = 1;
+	baseTempOfA[3] = 5;
+	baseTempOfA[4] = 6;
+	baseTempOfA[5] = 0;
+	assertEqual(*((int*)findFirst(util,match,(void*)&hint)),4);
+}

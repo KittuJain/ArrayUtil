@@ -1,3 +1,4 @@
+typedef int (MatchFunc)(void*,void*);
 typedef struct util ArrayUtil;
 
 struct util {
@@ -14,3 +15,4 @@ ArrayUtil create(int, int);
 ArrayUtil resize(ArrayUtil, int);
 int findIndex(ArrayUtil, void*);
 void dispose(ArrayUtil);
+void* findFirst(ArrayUtil, MatchFunc *, void*);
