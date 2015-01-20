@@ -19,7 +19,7 @@ int areBaseValuesSame (ArrayUtil a, ArrayUtil b){
 	char *util1 = ((char*)a.base);
 	char *util2 = ((char*)b.base);
 
-	if(a.length != b.length)
+	if(areLengthEqual(a, b) == 0)
 		return 0;
 	for(i = 0; i < (a.length*a.typeSize); i++){
 		if(util1[i] != util2[i])
@@ -29,7 +29,7 @@ int areBaseValuesSame (ArrayUtil a, ArrayUtil b){
 }
 
 int areEqual(ArrayUtil a, ArrayUtil b){
-	if(areLengthEqual(a, b) && isTypeSizeSame(a, b) && areBaseValuesSame(a, b))
+	if(isTypeSizeSame(a, b) && areBaseValuesSame(a, b))
 		return 1;
 	return 0;
 }
@@ -41,14 +41,11 @@ ArrayUtil create(int typeSize, int length){
 
 ArrayUtil resize(ArrayUtil util, int length) {
 	int count;
-	ArrayUtil arr;
 	int util_new_length = (util.typeSize)*length;
-	arr.base = calloc(length, util.typeSize);
-	arr.length = length;
-	for(count = 0; count < util_new_length; count++){
-		((char*)arr.base)[count] = ((char*)util.base)[count];
-	}
-	return arr;
+	ArrayUtil util1 = {calloc(length, util.typeSize), util.typeSize, length};
+	for(count = 0; count < util_new_length; count++)
+		((char*)util1.base)[count] = ((char*)util.base)[count];
+	return util1;
 }
 
 int findIndex(ArrayUtil util, void* element){
@@ -56,15 +53,10 @@ int findIndex(ArrayUtil util, void* element){
 	int length = sizeof(element);
 	
 	for(count = 0; count < (util.length*util.typeSize); count++){
-		if(length == sizeof(int)){
-			if(((int*)util.base)[count] == *((int*)element))
-				return count;
-		}
-		if(length == sizeof(float)){
-			if(((float*)util.base)[count] == *((float*)element))
-				return count;
-		}
+		if(((float*)util.base)[count] == *((float*)element))
+			return count;
 	}
+
 	for(count = 0; count < (util.length*util.typeSize); count++){
 		if(((char*)util.base)[count] == *((char*)element))
 			return count;
