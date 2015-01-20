@@ -101,8 +101,23 @@ void test_Create_creates_new_charArray_containing_all_elements_0_and_gives_0_for
 
 void test_resizeUtil_resizes_already_created_util (){
 	ArrayUtil util1 = create(INT_SIZE, 3);
-	ArrayUtil expectedUtil = {(int[]){0,0,0,0},INT_SIZE,4};
-	assertEqual(areEqual(expectedUtil, resize(util1, 4)), 0);
+	assertEqual(areEqual(util1, resize(util1, 4)), 0);
+
+}
+
+void test_resize_sets_new_elements_to_0 (){
+	ArrayUtil util = {(int[]){4,2,1},INT_SIZE,3};
+	assertEqual(areEqual(util, resize(util1, 4)), 0);
+}
+
+void test_resize_trims_array_by_length (){
+	ArrayUtil util = {(int[]){4,2,1,4,1,9},INT_SIZE,6};
+	assertEqual(areEqual(util, resize(util1, 3)), 0);
+}
+
+void test_resize_sets_new_elements_of_char_array_to_0 (){
+	ArrayUtil util = {(char[]){4,2,1},INT_SIZE,3};
+	assertEqual(areEqual(util, resize(util1, 4)), 0);
 }
 
 void test_findIndex_returns_3_if_search_element_is_at_3rd_location (){
@@ -133,3 +148,16 @@ void test_dispose_frees_memory_allocated_for_arrayUtil (){
 	ArrayUtil util1 = create(INT_SIZE, 3);
 	dispose(util1);
 }
+
+// int isGreaterThanHint (void* hint, void* element) {
+// 	return (int*)element > (int*)hint;
+// }
+
+// void test_findFirst_gives_occurence_of_criteria_match (){
+// 	int hint = 2;
+// 	int *result;
+// 	int (*match)(void*, void*) = &isGreaterThanHint;
+// 	ArrayUtil util = {(int[]){4,2,1,3,6,0},INT_SIZE,6};
+// 	result = (int*)findFirst(util,match,(void*)&hint);
+// 	assertEqual(*result,6);
+// }
