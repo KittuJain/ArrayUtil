@@ -18,8 +18,8 @@ int areBaseValuesSame (ArrayUtil a, ArrayUtil b){
 	int i;
 	if(a.length != b.length)
 		return 0;
-	for(i = 0; i < a.length; i++){
-		if(((int*)a.base)[i] != ((int*)b.base)[i])
+	for(i = 0; i < (a.length*a.typeSize); i++){
+		if(((char*)a.base)[i] != ((char*)b.base)[i])
 			return 0;
 	}
 	return 1;
@@ -33,7 +33,7 @@ int areEqual(ArrayUtil a, ArrayUtil b){
 }
 
 ArrayUtil create(int typeSize, int length){
-	int *base;
+	void *base;
 	ArrayUtil a;
 	a.base = calloc(length,typeSize);
 	a.length = length;
@@ -44,7 +44,7 @@ ArrayUtil create(int typeSize, int length){
 ArrayUtil resize(ArrayUtil util, int length) {
 	int util_new_length = (util.typeSize)*length;
 	util.base = realloc(util.base, util_new_length);
-	util.length = util_new_length;
+	util.length = length;
 	return util;
 }
 
@@ -57,4 +57,9 @@ int findIndex(ArrayUtil util, void* element){
 			return count;
 	}
 	return -1;
+}
+
+void dispose(ArrayUtil util){
+	free(util.base);
+	util.length = 0;
 }
