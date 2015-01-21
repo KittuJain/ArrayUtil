@@ -164,7 +164,16 @@ void test_findFirst_gives_occurence_of_first_element_greaterThan5 (){
 	assertEqual(*result,7);
 }
 
-void test_findFirst_gives_NULL_for_no_matching_element (){
+void test_findFirst_gives_occurence_of_first_element_in_floatArray_greaterThan5 (){
+	float hint = 5.1;
+	float *result;
+	MatchFunc *match = &isGreaterThanHint;
+	ArrayUtil util = {(float[]){7.1,2.4,1.6,3.7,8.3,0.1},FLOAT_SIZE,6};
+	result = (float*)findFirst(util,match,(void*)&hint);
+	assertEqual(*result,(float)7.1);
+}
+
+void test_findFirst_gives_NULL_for_no_elementGreaterThanHint5 (){
 	int hint = 5;
 	int result;
 	MatchFunc *match = &isGreaterThanHint;
@@ -191,10 +200,27 @@ void test_findLast_gives_NULL_for_no_elementGreaterThanHint (){
 	assertEqual(result,0);
 }
 
+void test_findLast_gives_occurence_of_first_element_in_floatArray_greaterThan5 (){
+	float hint = 5.1;
+	float *result;
+	MatchFunc *match = &isGreaterThanHint;
+	ArrayUtil util = {(float[]){7.1,2.4,1.6,3.7,8.3,0.1},FLOAT_SIZE,6};
+	result = (float*)findLast(util,match,(void*)&hint);
+	assertEqual(*result,(float)8.3);
+}
+
 void test_count_counts_the_number_of_elements_greaterThanHint (){
 	int hint = 5;
 	int *result;
 	MatchFunc *match = &isGreaterThanHint;
 	ArrayUtil util = {(int[]){7,2,6,3,8,0},INT_SIZE,6};
+	assertEqual(count(util, match, (void*)&hint),3);
+}
+
+void test_count_counts_the_number_of_elements_of_float_that_are_greaterThanHint (){
+	float hint = 5.1;
+	float *result;
+	MatchFunc *match = &isGreaterThanHint;
+	ArrayUtil util = {(float[]){7.1,2.4,1.6,9.7,8.3,0.1},FLOAT_SIZE,6};
 	assertEqual(count(util, match, (void*)&hint),3);
 }
