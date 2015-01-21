@@ -108,6 +108,11 @@ void test_Create_creates_new_floatArray_containing_all_elements_0_and_gives_0_fo
 	assertEqual(areEqual(expectedUtil, create(FLOAT_SIZE, 3)), 0);
 }
 
+void test_Create_creates_new_doubleArray_containing_all_elements_0_and_gives_0_for_different_lengths (){
+	ArrayUtil expectedUtil = {(double[]){0,0},DOUBLE_SIZE,2};
+	assertEqual(areEqual(expectedUtil, create(DOUBLE_SIZE, 3)), 0);
+}
+
 void test_Create_creates_new_charArray_containing_all_elements_0_and_gives_0_for_different_lengths (){
 	ArrayUtil expectedUtil = {(char[]){0,0,0},CHAR_SIZE,3};
 	assertEqual(areEqual(expectedUtil, create(CHAR_SIZE, 2)), 0);
@@ -119,21 +124,28 @@ void test_resizeUtil_resizes_already_created_util (){
 	assertEqual(areEqual(expectedUtil, resize(util1, 4)), 1);
 }
 
-void test_resize_sets_new_elements_to_0 (){
-	ArrayUtil util = {(int[]){4,2,1},INT_SIZE,3};
-	ArrayUtil expectedUtil = {(int[]){0,0,0,0},INT_SIZE,4};
-	assertEqual(areEqual(expectedUtil, resize(util1, 4)), 1);
+void test_resize_trims_int_array_by_length (){
+	ArrayUtil util = {(int[]){4,2,1,4,1,9},INT_SIZE,6};
+	ArrayUtil expectedUtil = {(int[]){4,2,1},INT_SIZE,3};
+	assertEqual(areEqual(expectedUtil, resize(util, 3)), 1);
 }
 
-void test_resize_trims_array_by_length (){
-	ArrayUtil util = {(int[]){4,2,1,4,1,9},INT_SIZE,6};
-	ArrayUtil expectedUtil = {(int[]){0,0,0,0},INT_SIZE,4};
-	assertEqual(areEqual(expectedUtil, resize(util1, 4)), 1);
+void test_resize_sets_new_elements_of_int_array_to_0 (){
+	ArrayUtil util = {(int[]){400000000,200000000,100000000},INT_SIZE,3};
+	ArrayUtil expectedUtil = {(int[]){400000000,200000000,100000000,0},INT_SIZE,4};
+	assertEqual(areEqual(expectedUtil, resize(util, 4)), 1);
+}
+
+void test_resize_sets_new_elements_of_float_array_to_0 (){
+	ArrayUtil util = {(float[]){4.0,2.0,1.0},FLOAT_SIZE,3};
+	ArrayUtil expectedUtil = {(float[]){4.0,2.0,1.0,0},FLOAT_SIZE,4};
+	assertEqual(areEqual(expectedUtil, resize(util, 4)), 1);
 }
 
 void test_resize_sets_new_elements_of_char_array_to_0 (){
-	ArrayUtil util1 = {(char[]){4,2,1},CHAR_SIZE,3};
-	assertEqual(areEqual(util1, resize(util1, 4)), 0);
+	ArrayUtil util = {(char[]){'k','r','a'},CHAR_SIZE,3};
+	ArrayUtil expectedUtil = {(char[]){'k','r','a',0,0},CHAR_SIZE,5};
+	assertEqual(areEqual(expectedUtil, resize(util, 5)), 1);
 }
 
 void test_findIndex_returns_3_if_search_element_is_at_3rd_location (){
@@ -288,3 +300,15 @@ void test_filter_filters_the_util_floatArray_which_matches_the_criteria (){
 	assertEqual(destination[0], (float)7.1);
 	assertEqual(destination[1], (float)8.3);
 }
+
+// void test_filter_filters_the_util_charArray_which_matches_the_criteria (){
+// 	char hint = 'h';
+// 	char *result;
+// 	MatchFunc *match = &isElementM;
+// 	ArrayUtil util = {(char[]){'k','h','u','h','g','h'},CHAR_SIZE,6};
+// 	char *destination;
+// 	assertEqual(filter(util, match, (void*)&hint, (void*)&destination, 4),1);
+// 	assertEqual(destination[0], 'h');
+// 	assertEqual(destination[1], 'h');
+// 	assertEqual(destination[2], 'h');
+// }

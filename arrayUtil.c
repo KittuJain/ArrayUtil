@@ -41,12 +41,15 @@ ArrayUtil create(int typeSize, int length){
 
 ArrayUtil resize(ArrayUtil util, int length) {
 	int count;
-	int util_new_length = (util.typeSize)*length;
-	ArrayUtil util1 = {calloc(length, util.typeSize), util.typeSize, length};
-	for(count = 0; count < util.length; count++){
-		((char*)util1.base)[count] = ((char*)util.base)[count];
+	int size = util.typeSize;
+	int len = util.length > length ? length : util.length;
+	ArrayUtil new_util = {calloc(length, size), size, length};
+
+	for(count = 0; count < len*size; count++){
+		((char*)new_util.base)[count] = ((char*)util.base)[count];
 	}
-	return util1;
+
+	return new_util;
 }
 
 int findIndex(ArrayUtil util, void* element){

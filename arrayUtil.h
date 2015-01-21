@@ -1,6 +1,8 @@
 #define INT_SIZE sizeof(int)
 #define CHAR_SIZE sizeof(char)
 #define FLOAT_SIZE sizeof(float)
+#define DOUBLE_SIZE sizeof(double)
+
 typedef int (MatchFunc)(void*,void*);
 typedef struct util ArrayUtil;
 
