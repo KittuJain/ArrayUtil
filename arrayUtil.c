@@ -74,7 +74,17 @@ void* findFirst(ArrayUtil util, MatchFunc *match, void* hint){
 	int i;
 	int* base = (int*)util.base;
 	for(i = 0; i < util.length; i++){
-		if(match(hint,(void*)&base[i])==1)
+		if(match(hint, (void*)&base[i])==1)
+			return (void*)&base[i];
+	}
+	return NULL;
+}
+
+void* findLast(ArrayUtil util, MatchFunc *match, void* hint){
+	int i;
+	int* base = (int*)util.base;
+	for(i = (util.length)-1; i >= 0; i--){
+		if(match(hint, (void*)&base[i])==1)
 			return (void*)&base[i];
 	}
 	return hint;
