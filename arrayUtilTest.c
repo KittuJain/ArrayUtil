@@ -164,6 +164,15 @@ void test_findFirst_gives_occurence_of_first_element_greaterThan5 (){
 	assertEqual(*result,7);
 }
 
+void test_findFirst_gives_NULL_for_no_matching_element (){
+	int hint = 5;
+	int result;
+	MatchFunc *match = &isGreaterThanHint;
+	ArrayUtil util = {(int[]){1,2,1,3,4,0},INT_SIZE,6};
+	result = (int)findFirst(util,match,(void*)&hint);
+	assertEqual(result,0);
+}
+
 void test_findLast_gives_occurence_of_first_element_greaterThan5 (){
 	int hint = 5;
 	int *result;
@@ -171,6 +180,15 @@ void test_findLast_gives_occurence_of_first_element_greaterThan5 (){
 	ArrayUtil util = {(int[]){7,2,1,3,8,0},INT_SIZE,6};
 	result = (int*)findLast(util,match,(void*)&hint);
 	assertEqual(*result,8);
+}
+
+void test_findLast_gives_NULL_for_no_elementGreaterThanHint (){
+	int hint = 85;
+	int result;
+	MatchFunc *match = &isGreaterThanHint;
+	ArrayUtil util = {(int[]){7,2,1,3,8,0},INT_SIZE,6};
+	result = (int)findLast(util,match,(void*)&hint);
+	assertEqual(result,0);
 }
 
 void test_count_counts_the_number_of_elements_greaterThanHint (){
