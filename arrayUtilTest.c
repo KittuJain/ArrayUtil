@@ -1,7 +1,3 @@
-#define INT_SIZE sizeof(int)
-#define CHAR_SIZE sizeof(char)
-#define FLOAT_SIZE sizeof(float)
-
 #include "expr_assert.h"
 #include <stdio.h>
 #include <stdlib.h>

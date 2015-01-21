@@ -104,7 +104,7 @@ int count(ArrayUtil util, MatchFunc* match, void* hint){
 int filter(ArrayUtil util, MatchFunc* match, void* hint, void** destination, int maxItems ){
 	int i, len=0;
 	float* base = (float*)util.base;
-	*((float**)destination) = (float *)malloc(sizeof(float)*maxItems);
+	*((float**)destination) = (float *)malloc(util.typeSize*maxItems);
 
 	if(maxItems == 0)
 		return 0;
