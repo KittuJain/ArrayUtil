@@ -69,6 +69,24 @@ void test_areEqual_returns_1_for_same_array_utils_of_float_type (){
 	assertEqual(areEqual(util1, util2), 1);
 }
 
+void test_areEqual_returns_0_for_different_array_utils_of_int_type (){
+	ArrayUtil util1 = { (int[]){2,5,3},INT_SIZE,3 };
+	ArrayUtil util2 = { (int[]){2,5,1},INT_SIZE,3 };	
+	assertEqual(areEqual(util1, util2), 0);	
+}
+
+void test_areEqual_returns_0_for_different_array_utils_of_char_type (){
+	ArrayUtil util1 = { (char[]){'k','r','a','t','i'},CHAR_SIZE,5 };
+	ArrayUtil util2 = { (char[]){'k','r','a','t','j'},CHAR_SIZE,5 };
+	assertEqual(areEqual(util1, util2), 0);	
+}
+
+void test_areEqual_returns_0_for_different_array_utils_of_float_type (){
+	ArrayUtil util1 = { (float[]){1.4,2.5,7.8,5.3},FLOAT_SIZE,4 };
+	ArrayUtil util2 = { (float[]){1.4,2.5,7.8,8.3},FLOAT_SIZE,4 };
+	assertEqual(areEqual(util1, util2), 0);
+}
+
 void test_Create_creates_new_array_of_int_containing_all_elements_0 (){
 	ArrayUtil expectedUtil = {(int[]){0,0},INT_SIZE,2};
 	assertEqual(areEqual(expectedUtil, create(INT_SIZE, 2)), 1);
@@ -152,25 +170,25 @@ void test_dispose_frees_memory_allocated_for_arrayUtil (){
 }
 
 int isGreaterThanHint (void* hint, void* element) {
-	return (*((int*)element) > *((int*)hint)) ? 1 : 0;
+	return (*((float*)element) > *((float*)hint)) ? 1 : 0;
 }
 
 void test_findFirst_gives_occurence_of_first_element_greaterThan5 (){
 	int hint = 5;
 	int *result;
 	MatchFunc *match = &isGreaterThanHint;
-	ArrayUtil util = {(int[]){7,2,1,3,8,0},INT_SIZE,6};
+	ArrayUtil util = {(int[]){1,2,1,3,8,0},INT_SIZE,6};
 	result = (int*)findFirst(util,match,(void*)&hint);
-	assertEqual(*result,7);
+	assertEqual(*result,8);
 }
 
 void test_findFirst_gives_occurence_of_first_element_in_floatArray_greaterThan5 (){
 	float hint = 5.1;
 	float *result;
 	MatchFunc *match = &isGreaterThanHint;
-	ArrayUtil util = {(float[]){7.1,2.4,1.6,3.7,8.3,0.1},FLOAT_SIZE,6};
+	ArrayUtil util = {(float[]){3.1,2.4,1.6,3.7,8.3,0.1},FLOAT_SIZE,6};
 	result = (float*)findFirst(util,match,(void*)&hint);
-	assertEqual(*result,(float)7.1);
+	assertEqual(*result,(float)8.3);
 }
 
 void test_findFirst_gives_NULL_for_no_elementGreaterThanHint5 (){
@@ -180,6 +198,19 @@ void test_findFirst_gives_NULL_for_no_elementGreaterThanHint5 (){
 	ArrayUtil util = {(int[]){1,2,1,3,4,0},INT_SIZE,6};
 	result = (int)findFirst(util,match,(void*)&hint);
 	assertEqual(result,0);
+}
+
+int isElementM (void* hint, void* element) {
+	return (*((char*)element) == *((char*)hint)) ? 1 : 0;
+}
+
+void test_findFirst_gives_occurence_of_first_element_in_charArray_greaterThan5 (){
+	char hint = 'h';
+	char *result;
+	MatchFunc *match = &isElementM;
+	ArrayUtil util = {(char[]){'m','a','h','a','v','i','r'},CHAR_SIZE,6};
+	result = (char*)findFirst(util,match,(void*)&hint);
+	assertEqual(*result,'h');
 }
 
 void test_findLast_gives_occurence_of_first_element_greaterThan5 (){
@@ -200,7 +231,7 @@ void test_findLast_gives_NULL_for_no_elementGreaterThanHint (){
 	assertEqual(result,0);
 }
 
-void test_findLast_gives_occurence_of_first_element_in_floatArray_greaterThan5 (){
+void test_findLast_gives_occurence_of_last_element_in_floatArray_greaterThan5 (){
 	float hint = 5.1;
 	float *result;
 	MatchFunc *match = &isGreaterThanHint;
@@ -209,9 +240,17 @@ void test_findLast_gives_occurence_of_first_element_in_floatArray_greaterThan5 (
 	assertEqual(*result,(float)8.3);
 }
 
+void test_findLast_gives_occurence_of_last_element_in_charArray_greaterThan5 (){
+	char hint = 'h';
+	char *result;
+	MatchFunc *match = &isElementM;
+	ArrayUtil util = {(char[]){'m','a','h','a','v','i','r'},CHAR_SIZE,6};
+	result = (char*)findLast(util,match,(void*)&hint);
+	assertEqual(*result,'h');
+}
+
 void test_count_counts_the_number_of_elements_greaterThanHint (){
 	int hint = 5;
-	int *result;
 	MatchFunc *match = &isGreaterThanHint;
 	ArrayUtil util = {(int[]){7,2,6,3,8,0},INT_SIZE,6};
 	assertEqual(count(util, match, (void*)&hint),3);
@@ -219,8 +258,25 @@ void test_count_counts_the_number_of_elements_greaterThanHint (){
 
 void test_count_counts_the_number_of_elements_of_float_that_are_greaterThanHint (){
 	float hint = 5.1;
-	float *result;
 	MatchFunc *match = &isGreaterThanHint;
 	ArrayUtil util = {(float[]){7.1,2.4,1.6,9.7,8.3,0.1},FLOAT_SIZE,6};
 	assertEqual(count(util, match, (void*)&hint),3);
 }
+
+void test_count_counts_the_number_of_elements_of_char_that_are_equal_to_hint (){
+	char hint = 'h';
+	char *result;
+	MatchFunc *match = &isElementM;
+	ArrayUtil util = {(char[]){'k','h','u','h','g','h'},CHAR_SIZE,6};
+	assertEqual(count(util, match, (void*)&hint),3);
+}
+
+// void test_filter_filters_the_util_array_which_matches_the_criteria (){
+// 	int hint = 4;
+// 	MatchFunc *match = &isGreaterThanHint;
+// 	ArrayUtil util = {(int[]){7,2,6,3,8,9},INT_SIZE,6};
+// 	int *destination;
+// 	ArrayUtil expectedUtil = {(int[]){7,6,8,9},INT_SIZE,4};
+// 	assertEqual(filter(util, match, (void*)&hint, (void*)&destination, 4),1);
+	// assertEqual(areEqual(expectedUtil, *(int*)destination), 1);
+// }

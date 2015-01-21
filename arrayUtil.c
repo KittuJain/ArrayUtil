@@ -72,30 +72,48 @@ void dispose(ArrayUtil util){
 
 void* findFirst(ArrayUtil util, MatchFunc *match, void* hint){
 	int i;
-	int* base = (int*)util.base;
+	char* base = (char*)util.base;
+
 	for(i = 0; i < util.length; i++){
-		if(match(hint, (void*)&base[i]))
-			return (void*)&base[i];
+		if(match(hint, (void*)(&base[i*util.typeSize])))
+			return (void*)&base[i*util.typeSize];
 	}
 	return NULL;
 }
 
 void* findLast(ArrayUtil util, MatchFunc *match, void* hint){
 	int i;
-	float* base = (float*)util.base;
+	char* base = (char*)util.base;
 	for(i = (util.length)-1; i >= 0; i--){
-		if(match(hint, (void*)&base[i]))
-			return (void*)&base[i];
+		if(match(hint, (void*)&base[i*util.typeSize]))
+			return (void*)&base[i*util.typeSize];
 	}
 	return NULL;
 }
 
 int count(ArrayUtil util, MatchFunc* match, void* hint){
 	int i, count = 0;
-	float* base = (float*)util.base;
-	for(i = (util.length)-1; i >= 0; i--){
-		if(match(hint, (void*)&base[i]))
+	char* base = (char*)util.base;
+	for(i = 0; i < util.length; i++){
+		if(match(hint, (void*)&base[i*util.typeSize]))
 			count++;
 	}
 	return count;
+}
+
+int filter(ArrayUtil util, MatchFunc* match, void* hint, void** destination, int maxItems ){
+	int i, len=0;
+	float* base = (float*)util.base;
+	*((float**)destination) = (float *)malloc(sizeof(float)*maxItems);
+
+	if(maxItems == 0)
+		return 0;
+
+	for(i = 0; i < util.length; i++) {
+		if(match(hint, (void*)&base[i])) {
+			(*((float**)destination))[len] = base[i];
+			len++;
+		}
+	}
+	return 1;
 }
