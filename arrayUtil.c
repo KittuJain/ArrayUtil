@@ -43,8 +43,9 @@ ArrayUtil resize(ArrayUtil util, int length) {
 	int count;
 	int util_new_length = (util.typeSize)*length;
 	ArrayUtil util1 = {calloc(length, util.typeSize), util.typeSize, length};
-	for(count = 0; count < util_new_length; count++)
+	for(count = 0; count < util.length; count++){
 		((char*)util1.base)[count] = ((char*)util.base)[count];
+	}
 	return util1;
 }
 
@@ -69,15 +70,12 @@ void dispose(ArrayUtil util){
 	util.length = 0;
 }
 
-// void* findFirst(ArrayUtil util, MatchFunc *match, void* hint){
-// 	int i;
-// 	int _base;
-// 	void *item;
-// 	for(i=0 ; i<util.length ; i++){
-// 		_base = ((int*)util.base)[i];
-// 		item = &_base;
-// 		if(match(hint,item) == 1)
-// 			return item;
-// 	}
-// 	return hint;
-// }
+void* findFirst(ArrayUtil util, MatchFunc *match, void* hint){
+	int i;
+	int* base = (int*)util.base;
+	for(i = 0; i < util.length; i++){
+		if(match(hint,(void*)&base[i])==1)
+			return (void*)&base[i];
+	}
+	return hint;
+}
