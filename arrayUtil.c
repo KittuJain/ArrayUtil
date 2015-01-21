@@ -87,5 +87,15 @@ void* findLast(ArrayUtil util, MatchFunc *match, void* hint){
 		if(match(hint, (void*)&base[i])==1)
 			return (void*)&base[i];
 	}
-	return hint;
+	return NULL;
+}
+
+int count(ArrayUtil util, MatchFunc* match, void* hint){
+	int i, count = 0;
+	int* base = (int*)util.base;
+	for(i = (util.length)-1; i >= 0; i--){
+		if(match(hint, (void*)&base[i])==1)
+			count++;
+	}
+	return count;
 }
