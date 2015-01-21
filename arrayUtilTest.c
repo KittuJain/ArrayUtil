@@ -271,12 +271,14 @@ void test_count_counts_the_number_of_elements_of_char_that_are_equal_to_hint (){
 	assertEqual(count(util, match, (void*)&hint),3);
 }
 
-// void test_filter_filters_the_util_array_which_matches_the_criteria (){
-// 	int hint = 4;
-// 	MatchFunc *match = &isGreaterThanHint;
-// 	ArrayUtil util = {(int[]){7,2,6,3,8,9},INT_SIZE,6};
-// 	int *destination;
-// 	ArrayUtil expectedUtil = {(int[]){7,6,8,9},INT_SIZE,4};
-// 	assertEqual(filter(util, match, (void*)&hint, (void*)&destination, 4),1);
-	// assertEqual(areEqual(expectedUtil, *(int*)destination), 1);
-// }
+void test_filter_filters_the_util_array_which_matches_the_criteria (){
+	int hint = 4;
+	MatchFunc *match = &isGreaterThanHint;
+	ArrayUtil util = {(int[]){7,2,6,3,8,9},INT_SIZE,6};
+	int *destination;
+	assertEqual(filter(util, match, (void*)&hint, (void*)&destination, 4),1);
+	assertEqual(destination[0], 7);
+	assertEqual(destination[1], 6);
+	assertEqual(destination[2], 8);
+	assertEqual(destination[3], 9);
+}
