@@ -130,22 +130,22 @@ void test_Create_creates_new_charArray_containing_all_elements_0_and_gives_0_for
 	assertEqual(areEqual(expectedUtil, create(CHAR_SIZE, 2)), 0);
 }
 
-void test_should_return_1_when_two_students_type_of_array_are_created_whose_length_are_same () {
+void test_areEqual_should_return_1_when_two_students_type_of_array_are_created_whose_length_are_same () {
 	ArrayUtil expectedUtil = { (students[]){{0, 0}, {0, 0}}, sizeof(students), 2};
     assertEqual(areEqual(expectedUtil, create(sizeof(students), 2)), 1);
 }
 
-void test_should_return_0_when_two_students_type_of_array_are_created_whose_length_are_different () {
+void test_areEqual_should_return_0_when_two_students_type_of_array_are_created_whose_length_are_different () {
 	ArrayUtil expectedUtil = { (students[]){{0, 0}, {0, 0}}, sizeof(students), 3};
     assertEqual(areEqual(expectedUtil, create(sizeof(students), 2)), 0);
 }
 
-void test_should_return_0_when_two_students_type_of_array_are_created_whose_baseValues_are_different () {
+void test_areEqual_should_return_0_when_two_students_type_of_array_are_created_whose_baseValues_are_different () {
 	ArrayUtil expectedUtil = { (students[]){{1, 500}, {2, 100}}, sizeof(students), 2};
     assertEqual(areEqual(expectedUtil, create(sizeof(students), 2)), 0);
 }
 
-void test_resizeUtil_resizes_already_created_util (){
+void test_resizeUtil_resizes_already_created_util_of_int_type (){
 	ArrayUtil util1 = create(INT_SIZE, 3);
 	ArrayUtil expectedUtil = {(int[]){0,0,0,0},INT_SIZE,4};
 	assertEqual(areEqual(expectedUtil, resize(util1, 4)), 1);
@@ -175,7 +175,7 @@ void test_resize_sets_new_elements_of_char_array_to_0 (){
 	assertEqual(areEqual(expectedUtil, resize(util, 5)), 1);
 }
 
-void test_findIndex_returns_3_if_search_element_is_at_3rd_location (){
+void test_findIndex_returns_3_if_search_element_is_at_3rd_location_of_int_array (){
 	int element = 3;
 	ArrayUtil util = {(int[]){4,2,1,3,6,0},INT_SIZE,6};
 	assertEqual(findIndex(util, &element),3);
@@ -226,7 +226,7 @@ void test_findFirst_gives_occurence_of_first_element_in_floatArray_greaterThan5 
 	assertEqual(*result,(float)8.3);
 }
 
-void test_findFirst_gives_NULL_for_no_elementGreaterThanHint5 (){
+void test_findFirst_gives_NULL_for_no_element_is_GreaterThanHint5 (){
 	int hint = 5;
 	int result;
 	MatchFunc *match = &isGreaterThanHint;
@@ -239,7 +239,7 @@ int isElementM (void* hint, void* element) {
 	return (*((char*)element) == *((char*)hint)) ? 1 : 0;
 }
 
-void test_findFirst_gives_occurence_of_first_element_in_charArray_greaterThan5 (){
+void test_findFirst_gives_occurence_of_first_h_in_charArray_ (){
 	char hint = 'h';
 	char *result;
 	MatchFunc *match = &isElementM;
@@ -248,7 +248,7 @@ void test_findFirst_gives_occurence_of_first_element_in_charArray_greaterThan5 (
 	assertEqual(*result,'h');
 }
 
-void test_findLast_gives_occurence_of_first_element_greaterThan5 (){
+void test_findLast_gives_occurence_of_last_element_greaterThan5 (){
 	int hint = 5;
 	int *result;
 	MatchFunc *match = &isGreaterThanHint;
@@ -311,6 +311,7 @@ void test_filter_filters_the_util_intArray_which_matches_the_criteria (){
 	MatchFunc *match = &isGreaterThanHint;
 	ArrayUtil util = {(int[]){7,2,6,3,8,9},INT_SIZE,6};
 	int *destination;
+	destination = malloc(INT_SIZE*4);
 	assertEqual(filter(util, match, (void*)&hint, (void*)&destination, 4),1);
 	assertEqual(destination[0], 7);
 	assertEqual(destination[1], 6);
@@ -323,19 +324,9 @@ void test_filter_filters_the_util_floatArray_which_matches_the_criteria (){
 	MatchFunc *match = &isGreaterThanHint;
 	ArrayUtil util = {(float[]){7.1,2.4,1.6,3.7,8.3,0.1},FLOAT_SIZE,6};
 	float *destination;
+	destination = malloc(FLOAT_SIZE*2);
 	assertEqual(filter(util, match, (void*)&hint, (void*)&destination, 4),1);
 	assertEqual(destination[0], (float)7.1);
 	assertEqual(destination[1], (float)8.3);
 }
 
-// void test_filter_filters_the_util_charArray_which_matches_the_criteria (){
-// 	char hint = 'h';
-// 	char *result;
-// 	MatchFunc *match = &isElementM;
-// 	ArrayUtil util = {(char[]){'k','h','u','h','g','h'},CHAR_SIZE,6};
-// 	char *destination;
-// 	assertEqual(filter(util, match, (void*)&hint, (void*)&destination, 4),1);
-// 	assertEqual(destination[0], 'h');
-// 	assertEqual(destination[1], 'h');
-// 	assertEqual(destination[2], 'h');
-// }

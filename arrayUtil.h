@@ -2,9 +2,12 @@
 #define CHAR_SIZE sizeof(char)
 #define FLOAT_SIZE sizeof(float)
 #define DOUBLE_SIZE sizeof(double)
+#define STRING_SIZE sizeof(char*)
 
 typedef int (MatchFunc)(void*,void*);
 typedef struct util ArrayUtil;
+typedef struct Student students;
+
 
 struct util {
 	void *base;
@@ -12,10 +15,10 @@ struct util {
 	int length;
 };
 
-typedef struct Student {
+struct Student {
 	int roll;
 	int marks;
-} students;
+};
 
 int areLengthEqual(ArrayUtil, ArrayUtil);
 int isTypeSizeSame (ArrayUtil, ArrayUtil);
