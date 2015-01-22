@@ -12,6 +12,11 @@ struct util {
 	int length;
 };
 
+typedef struct Student {
+	int roll;
+	int marks;
+} students;
+
 int areLengthEqual(ArrayUtil, ArrayUtil);
 int isTypeSizeSame (ArrayUtil, ArrayUtil);
 int areBaseValuesSame (ArrayUtil, ArrayUtil);

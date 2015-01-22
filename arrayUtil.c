@@ -65,6 +65,11 @@ int findIndex(ArrayUtil util, void* element){
 		if(((char*)util.base)[count] == *((char*)element))
 			return count;
 	}
+
+	// while(count < (util.length * util.typeSize)){
+	// 	if(((char*)util.base)[count] == *((char*)element))
+	// 		return (count/util.typeSize);
+	// }
 	return -1;
 }
 
@@ -120,3 +125,4 @@ int filter(ArrayUtil util, MatchFunc* match, void* hint, void** destination, int
 	}
 	return 1;
 }
+

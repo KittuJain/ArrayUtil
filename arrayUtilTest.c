@@ -83,6 +83,18 @@ void test_areEqual_returns_0_for_different_array_utils_of_float_type (){
 	assertEqual(areEqual(util1, util2), 0);
 }
 
+void test_areEqual_returns_1_for_Student_when_data_of_structure_is_same () {
+	ArrayUtil util1 = { (students[]){{1, 50}, {2, 100}}, sizeof(students), 2};
+	ArrayUtil util2 = { (students[]){{1, 50}, {2, 100}}, sizeof(students), 2};
+	assertEqual(areEqual(util1, util2), 1);
+}
+
+void test_areEqual_returns_0_for_Student_when_data_structure_are_different () {
+	ArrayUtil util1 = { (students[]){{1, 50}, {2, 100}}, sizeof(students), 2};
+	ArrayUtil util2 = { (students[]){{1, 500}, {2, 200}}, sizeof(students), 2};
+	assertEqual(areEqual(util1, util2), 0);
+}
+
 void test_Create_creates_new_array_of_int_containing_all_elements_0 (){
 	ArrayUtil expectedUtil = {(int[]){0,0},INT_SIZE,2};
 	assertEqual(areEqual(expectedUtil, create(INT_SIZE, 2)), 1);
@@ -301,14 +313,3 @@ void test_filter_filters_the_util_floatArray_which_matches_the_criteria (){
 	assertEqual(destination[1], (float)8.3);
 }
 
-// void test_filter_filters_the_util_charArray_which_matches_the_criteria (){
-// 	char hint = 'h';
-// 	char *result;
-// 	MatchFunc *match = &isElementM;
-// 	ArrayUtil util = {(char[]){'k','h','u','h','g','h'},CHAR_SIZE,6};
-// 	char *destination;
-// 	assertEqual(filter(util, match, (void*)&hint, (void*)&destination, 4),1);
-// 	assertEqual(destination[0], 'h');
-// 	assertEqual(destination[1], 'h');
-// 	assertEqual(destination[2], 'h');
-// }
