@@ -6,7 +6,7 @@ int areLengthEqual(ArrayUtil a, ArrayUtil b){
 	if(a.length==b.length)
 		return 1;
 	return 0;
-}
+}	
 
 int isTypeSizeSame (ArrayUtil a, ArrayUtil b){
 	if(a.typeSize == b.typeSize)
@@ -125,4 +125,3 @@ int filter(ArrayUtil util, MatchFunc* match, void* hint, void** destination, int
 	}
 	return 1;
 }
-

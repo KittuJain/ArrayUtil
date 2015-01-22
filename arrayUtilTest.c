@@ -130,6 +130,21 @@ void test_Create_creates_new_charArray_containing_all_elements_0_and_gives_0_for
 	assertEqual(areEqual(expectedUtil, create(CHAR_SIZE, 2)), 0);
 }
 
+void test_should_return_1_when_two_students_type_of_array_are_created_whose_length_are_same () {
+	ArrayUtil expectedUtil = { (students[]){{0, 0}, {0, 0}}, sizeof(students), 2};
+    assertEqual(areEqual(expectedUtil, create(sizeof(students), 2)), 1);
+}
+
+void test_should_return_0_when_two_students_type_of_array_are_created_whose_length_are_different () {
+	ArrayUtil expectedUtil = { (students[]){{0, 0}, {0, 0}}, sizeof(students), 3};
+    assertEqual(areEqual(expectedUtil, create(sizeof(students), 2)), 0);
+}
+
+void test_should_return_0_when_two_students_type_of_array_are_created_whose_baseValues_are_different () {
+	ArrayUtil expectedUtil = { (students[]){{1, 500}, {2, 100}}, sizeof(students), 2};
+    assertEqual(areEqual(expectedUtil, create(sizeof(students), 2)), 0);
+}
+
 void test_resizeUtil_resizes_already_created_util (){
 	ArrayUtil util1 = create(INT_SIZE, 3);
 	ArrayUtil expectedUtil = {(int[]){0,0,0,0},INT_SIZE,4};
@@ -313,3 +328,14 @@ void test_filter_filters_the_util_floatArray_which_matches_the_criteria (){
 	assertEqual(destination[1], (float)8.3);
 }
 
+// void test_filter_filters_the_util_charArray_which_matches_the_criteria (){
+// 	char hint = 'h';
+// 	char *result;
+// 	MatchFunc *match = &isElementM;
+// 	ArrayUtil util = {(char[]){'k','h','u','h','g','h'},CHAR_SIZE,6};
+// 	char *destination;
+// 	assertEqual(filter(util, match, (void*)&hint, (void*)&destination, 4),1);
+// 	assertEqual(destination[0], 'h');
+// 	assertEqual(destination[1], 'h');
+// 	assertEqual(destination[2], 'h');
+// }
