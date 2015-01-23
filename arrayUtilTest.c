@@ -373,3 +373,17 @@ void test_filter_filters_the_util_floatArray_which_matches_the_criteria (){
 	assertEqual(destination[0], (float)7.1);
 	assertEqual(destination[1], (float)8.3);
 }
+
+void test_filter_filters_the_util_charArray_which_matches_the_criteria (){
+	char hint = 'h';
+	char *result;
+	MatchFunc *match = &isElementM;
+	ArrayUtil util = {(char[]){'k','h','u','h','g','h'},CHAR_SIZE,6};
+	char *destination;
+	destination = malloc(CHAR_SIZE*3);
+	assertEqual(filter(util, match, (void*)&hint, (void*)&destination, 4),3);
+	assertEqual(destination[0], 'h');
+	assertEqual(destination[1], 'h');
+	assertEqual(destination[2], 'h');
+}
+

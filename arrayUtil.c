@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "arrayUtil.h"
 
 int areLengthEqual(ArrayUtil a, ArrayUtil b){
@@ -122,15 +123,17 @@ int count(ArrayUtil util, MatchFunc* match, void* hint){
 }
 
 int filter(ArrayUtil util, MatchFunc* match, void* hint, void** destination, int maxItems ){
-	int i, len=0;
-	float* base = (float*)util.base;
-
-	if(maxItems == 0)
-		return len;
-
-	for(i = 0; i < util.length; i++) {
-		if(match(hint, (void*)&base[i]) && len < maxItems) {
-			(*((float**)destination))[len] = base[i];
+	int count;
+	int len = 0;
+	char** _destination =(char**) destination;
+	char* base = (char*) util.base;
+	void* item ;
+	
+	for (count = 0; count < util.length;count++){
+		
+		item = &(base[(count * util.typeSize)]);
+		if(match(hint,(void*)item) && len < maxItems){
+			memcpy(&((*_destination)[len * util.typeSize]), item, util.typeSize);
 			len++;
 		}
 	}
