@@ -6,3 +6,4 @@ sampleTest.c
 sampleTestRunner.c
 arrayUtilTestRunner.c
 commonArrayUtilTest.c
+commonArrayUtilTestRunner.c

@@ -9,9 +9,9 @@
 #define NO 0
 typedef char String[256];
 typedef int (MatchFunc)(void*,void*);
-typedef struct util ArrayUtil;
 typedef struct Student students;
 typedef struct StudentDetails student;
+typedef struct util ArrayUtil;
 
 struct util {
 	void *base;
