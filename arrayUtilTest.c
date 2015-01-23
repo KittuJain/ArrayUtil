@@ -1,6 +1,7 @@
 #include "expr_assert.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "arrayUtil.h"
 
 ArrayUtil util1, util2;
@@ -58,7 +59,23 @@ void test_areEqual_returns_1_for_same_array_utils_of_char_type (){
 	ArrayUtil util2 = { (char[]){'k','r','a'},CHAR_SIZE,3 };
 	assertEqual(areEqual(util1, util2), 1);	
 }
+void test_areEqual_returns_1_for_same_array_utils_of_string_type(){
+	String a [] = {"hello"};
+	String b [] = {"hello"};
+	ArrayUtil array1 = {a, STRING_SIZE, 1};
+	ArrayUtil array2 = {b, STRING_SIZE, 1};
 
+	assertEqual(areEqual(array1,array2),1);
+}
+
+void test_areEqual_returns_1_for_different_strings_in_array_utils_of_string_type(){
+	String a [] = {"hallo"};
+	String b [] = {"hello"};
+	ArrayUtil array1 = {a, STRING_SIZE, 1};
+	ArrayUtil array2 = {b, STRING_SIZE, 1};
+
+	assertEqual(areEqual(array1,array2),0);
+}
 void test_areEqual_returns_1_for_same_array_utils_of_float_type (){
 	ArrayUtil util1 = { (float[]){1.4,2.5,7.8,8.3},FLOAT_SIZE,4 };
 	ArrayUtil util2 = { (float[]){1.4,2.5,7.8,8.3},FLOAT_SIZE,4 };
@@ -75,23 +92,6 @@ void test_areEqual_returns_0_for_different_array_utils_of_char_type (){
 	ArrayUtil util1 = { (char[]){'k','r','a','t','i'},CHAR_SIZE,5 };
 	ArrayUtil util2 = { (char[]){'k','r','a','t','j'},CHAR_SIZE,5 };
 	assertEqual(areEqual(util1, util2), 0);	
-}
-void test_ArrayUtil_a_and_ArrayUtil_b_are_will_be_equal_by_each_element_typeof_string(){
-	String a [] = {"hello"};
-	String b [] = {"hello"};
-	ArrayUtil array1 = {a, STRING_SIZE, 1};
-	ArrayUtil array2 = {b, STRING_SIZE, 1};
-
-	assert(areEqual(array1,array2));
-}
-
-void test_ArrayUtil_a_and_ArrayUtil_b_are_will_not_be_equal_String(){
-	String a [] = {"hallo"};
-	String b [] = {"hello"};
-	ArrayUtil array1 = {a, STRING_SIZE, 1};
-	ArrayUtil array2 = {b, STRING_SIZE, 1};
-
-	assertEqual(areEqual(array1,array2),0);
 }
 
 void test_areEqual_returns_0_for_different_array_utils_of_float_type (){
@@ -361,6 +361,7 @@ void test_filter_filters_the_util_intArray_which_matches_the_criteria (){
 	assertEqual(destination[1], 6);
 	assertEqual(destination[2], 8);
 	assertEqual(destination[3], 9);
+	free(destination);
 }
 
 void test_filter_filters_the_util_floatArray_which_matches_the_criteria (){
@@ -372,6 +373,7 @@ void test_filter_filters_the_util_floatArray_which_matches_the_criteria (){
 	assertEqual(filter(util, match, (void*)&hint, (void*)&destination, 4),2);
 	assertEqual(destination[0], (float)7.1);
 	assertEqual(destination[1], (float)8.3);
+	free(destination);
 }
 
 void test_filter_filters_the_util_charArray_which_matches_the_criteria (){
@@ -385,5 +387,53 @@ void test_filter_filters_the_util_charArray_which_matches_the_criteria (){
 	assertEqual(destination[0], 'h');
 	assertEqual(destination[1], 'h');
 	assertEqual(destination[2], 'h');
+	free(destination);
 }
 
+void test_filter_returns_0_when_the_criteria_is_not_matched_in_int_array (){
+	int hint = 34;
+	MatchFunc *match = &isGreaterThanHint;
+	ArrayUtil util = {(int[]){7,2,6,3,8,9},INT_SIZE,6};
+	int *destination;
+	assertEqual(filter(util, match, (void*)&hint, (void*)&destination, 0),0);
+}
+
+void test_filter_returns_0_when_the_criteria_is_not_matched_in_float_array (){
+	float hint = 85.1;
+	MatchFunc *match = &isGreaterThanHint;
+	ArrayUtil util = {(float[]){7.1,2.4,1.6,3.7,8.3,0.1},FLOAT_SIZE,6};
+	float *destination;
+	assertEqual(filter(util, match, (void*)&hint, (void*)&destination, 0),0);
+}
+
+void test_filter_returns_0_when_the_criteria_is_not_matched_in_char_array (){
+	char hint = 'a';
+	MatchFunc *match = &isElementM;
+	ArrayUtil util = {(char[]){'k','h','u','h','g','h'},CHAR_SIZE,6};
+	char *destination;
+	assertEqual(filter(util, match, (void*)&hint, (void*)&destination, 0),0);
+}
+
+int isElementHello (void *hint, void *element){
+	if(strcmp((char*)element,(char*)hint) == 0)
+		return 1;
+	return 0;
+}
+
+void test_filter_of_string_array_filters_array (){
+	char* hint = "hello";
+	MatchFunc *match = &isElementHello;
+	ArrayUtil util = {(char*[]){"hello","world"},STRING_SIZE,2};
+ 	char **destination;
+ 	destination = malloc(STRING_SIZE*1);
+ 	assertEqual(filter(util, match, (void*)&hint, (void*)&destination, 1), 1);
+ 	free(destination);
+}
+
+void test_filter_of_string_array_filters_array_and_returns_0 (){
+	char* hint = "hello";
+	MatchFunc *match = &isElementHello;
+	ArrayUtil util = {(char*[]){"hi","world"},STRING_SIZE,2};
+ 	char **destination;
+ 	assertEqual(filter(util, match, (void*)&hint, (void*)&destination, 0), 0);
+}

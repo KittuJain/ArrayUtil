@@ -4,6 +4,7 @@
 #define FLOAT_SIZE sizeof(float)
 #define DOUBLE_SIZE sizeof(double)
 #define STRING_SIZE sizeof(char*)
+
 #define null '\0'
 #define YES 1
 #define NO 0
