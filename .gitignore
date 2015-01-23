@@ -5,3 +5,4 @@ practiseStructures.c
 sampleTest.c
 sampleTestRunner.c
 arrayUtilTestRunner.c
+commonArrayUtilTest.c

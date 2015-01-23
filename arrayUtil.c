@@ -28,6 +28,18 @@ int areBaseValuesSame (ArrayUtil a, ArrayUtil b){
 	return 1;
 }
 
+int arrayEqual (int *array1, int *array2){
+	int i;
+	if((sizeof(array1))!=(sizeof(array2)))
+		return 0;
+	
+	for(i = 0; i < sizeof(array1); i++){
+		if(array1[i] != array2[i])
+			return 0;
+	}
+	return 1;
+}
+
 int areEqual(ArrayUtil a, ArrayUtil b){
 	if(isTypeSizeSame(a, b) && areBaseValuesSame(a, b))
 		return 1;
@@ -114,13 +126,13 @@ int filter(ArrayUtil util, MatchFunc* match, void* hint, void** destination, int
 	float* base = (float*)util.base;
 
 	if(maxItems == 0)
-		return 0;
+		return len;
 
 	for(i = 0; i < util.length; i++) {
-		if(match(hint, (void*)&base[i])) {
+		if(match(hint, (void*)&base[i]) && len < maxItems) {
 			(*((float**)destination))[len] = base[i];
 			len++;
 		}
 	}
-	return 1;
+	return len;
 }
