@@ -139,3 +139,14 @@ int filter(ArrayUtil util, MatchFunc* match, void* hint, void** destination, int
 	}
 	return len;
 }
+
+void map(ArrayUtil source, ArrayUtil destination, ConvertFunc* convert, void* hint){
+	int counter;
+	void *sourceItem;
+	void *destinationItem;
+	for(counter = 0; counter < source.length; counter++){
+		sourceItem = (void*)&(source.base[counter*source.typeSize]);
+		destinationItem = (void*)&(destination.base[counter*source.typeSize]);
+		convert(hint, sourceItem, destinationItem);
+	}
+}

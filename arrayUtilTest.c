@@ -437,3 +437,54 @@ void test_filter_of_string_array_filters_array_and_returns_0 (){
  	char **destination;
  	assertEqual(filter(util, match, (void*)&hint, (void*)&destination, 0), 0);
 }
+
+void addHintInElement(void* hint, void* sourceItem, void* destinationItem){
+	*((float*)destinationItem) = *((float*)sourceItem) + *((float*)hint);
+}
+
+void test_map_is_performed_for_int_array_of_eight_elements () {
+	int hint = 2;
+	ConvertFunc *convert = &addHintInElement;
+	ArrayUtil source = {(int[]){7,2,6,3,8,9,5,4},INT_SIZE,8};
+	ArrayUtil expectedUtil = {(int[]){9,4,8,5,10,11,7,6},INT_SIZE,8};
+	ArrayUtil destination = create(INT_SIZE,8);
+	map(source, destination, convert, (void*)&hint);
+	assertEqual(areEqual(destination, expectedUtil), 1);
+	dispose(destination);
+}
+
+void test_map_is_performed_for_float_array_of_eight_elements () {
+	float hint = 2.0;
+	ConvertFunc *convert = &addHintInElement;
+	ArrayUtil source = {(float[]){7.0, 2.0, 6.0, 3.0, 8.0, 9.0, 5.0, 4.0},FLOAT_SIZE,8};
+	ArrayUtil expectedUtil = {(float[]){9.0, 4.0, 8.0, 5.0, 10.0, 11.0, 7.0, 6.0},FLOAT_SIZE,8};
+	ArrayUtil destination = create(FLOAT_SIZE,8);
+	map(source, destination, convert, (void*)&hint);
+	assertEqual(areEqual(destination, expectedUtil), 1);
+	dispose(destination);
+}
+
+void test_map_is_performed_for_float_array_of_eight_elements_with_values_after_decimalPoint () {
+	float hint = 2.1;
+	ConvertFunc *convert = &addHintInElement;
+	ArrayUtil source = {(float[]){7.6, 2.9, 6.5, 3.7, 7.0, 9.0, 5.0, 4.0},FLOAT_SIZE,8};
+	ArrayUtil expectedUtil = {(float[]){9.7, 5.0, 8.6, 5.8, 9.1, 11.1, 7.1, 6.1},FLOAT_SIZE,8};
+	ArrayUtil destination = create(FLOAT_SIZE,8);
+	map(source, destination, convert, (void*)&hint);
+	assertEqual(areEqual(destination, expectedUtil), 1);
+	dispose(destination);
+}
+
+void makeCapital(void* hint, void* sourceItem, void* destinationItem){
+	*((char*)destinationItem) = *((char*)sourceItem) + 32;
+}
+
+void test_map_converts_a_b_c_d_e_to_A_B_C_D_E_in_charArray(){
+	char hint = 32;
+	ArrayUtil source = {(char[]){'A','B','C','D','E'},CHAR_SIZE,5};
+	ArrayUtil expected = {(char[]){'a','b','c','d','e'},CHAR_SIZE,5};
+	ArrayUtil destination = create(CHAR_SIZE,5);
+	map(source,destination,makeCapital,(void*)&hint);
+	assertEqual(areEqual(destination,expected),1);
+	dispose(destination);
+}
