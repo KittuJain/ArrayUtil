@@ -468,8 +468,8 @@ void test_map_is_performed_for_float_array_of_eight_elements_with_values_after_d
 	float hint = 2.1;
 	ConvertFunc *convert = &addHintInElement;
 	ArrayUtil source = {(float[]){7.6, 2.9, 6.5, 3.7, 7.0, 9.0, 5.0, 4.0},FLOAT_SIZE,8};
-	ArrayUtil expectedUtil = {(float[]){9.7, 5.0, 8.6, 5.8, 9.1, 11.1, 7.1, 6.1},FLOAT_SIZE,8};
 	ArrayUtil destination = create(FLOAT_SIZE,8);
+	ArrayUtil expectedUtil = {(float[]){9.7, 5.0, 8.6, 5.8, 9.1, 11.1, 7.1, 6.1},FLOAT_SIZE,8};
 	map(source, destination, convert, (void*)&hint);
 	assertEqual(areEqual(destination, expectedUtil), 1);
 	dispose(destination);
@@ -482,9 +482,47 @@ void makeCapital(void* hint, void* sourceItem, void* destinationItem){
 void test_map_converts_a_b_c_d_e_to_A_B_C_D_E_in_charArray(){
 	char hint = 32;
 	ArrayUtil source = {(char[]){'A','B','C','D','E'},CHAR_SIZE,5};
-	ArrayUtil expected = {(char[]){'a','b','c','d','e'},CHAR_SIZE,5};
 	ArrayUtil destination = create(CHAR_SIZE,5);
+	ArrayUtil expected = {(char[]){'a','b','c','d','e'},CHAR_SIZE,5};
 	map(source,destination,makeCapital,(void*)&hint);
 	assertEqual(areEqual(destination,expected),1);
 	dispose(destination);
+}
+
+void addTwiceHintInElement(void* hint, void* item){
+	*((float *)item)= *((float *)item) + (2*(*((float *)hint)));
+}
+
+void test_forEach_is_performed_for_int_array_of_eight_elements () {
+	int hint = 2;
+	int array[]={7,2,6,3,8,9,5,4};
+	int incremented[]={11,6,10,7,12,13,9,8};
+	ArrayUtil util={array,INT_SIZE,8};
+	ArrayUtil expected={incremented,INT_SIZE,8};
+	forEach(util,addTwiceHintInElement,(void*)&hint);
+	assert(areEqual(util,expected));
+}
+
+void test_forEach_is_performed_for_float_array_of_eight_elements () {
+	float hint = 2.0;
+	float array[]={7.6, 2.9, 6.5, 3.7, 7.0, 9.0, 5.0, 4.0};
+	float incremented[]={11.6, 6.90, 10.5, 7.70, 11.0, 13.0, 9.00, 8.00};
+	ArrayUtil util={array,FLOAT_SIZE,8};
+	ArrayUtil expected={incremented,FLOAT_SIZE,8};
+	forEach(util,addTwiceHintInElement,(void*)&hint);
+	assert(areEqual(util,expected));
+}
+
+void makeCursive(void* hint, void* sourceItem){
+	*((char*)sourceItem) = *((char*)sourceItem) - 32;
+}
+
+void test_forEach_converts_A_B_C_D_E_to_a_b_c_d_e_in_charArray(){
+	char hint = 32;
+	char sourceArray[] = {'a','b','c','d','e'};
+	char expectedArray[] = {'A','B','C','D','E'};
+	ArrayUtil source = {sourceArray,CHAR_SIZE,5};
+	ArrayUtil expected = {expectedArray,CHAR_SIZE,5};
+	forEach(source,makeCursive,(void*)&hint);
+	assertEqual(areEqual(source,expected),1);
 }

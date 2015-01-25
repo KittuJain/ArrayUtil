@@ -11,6 +11,7 @@
 typedef char String[256];
 typedef int (MatchFunc)(void*,void*);
 typedef void (ConvertFunc)(void*, void*, void*); 
+typedef void (OperationFunc)(void*, void*);
 typedef struct Student students;
 typedef struct StudentDetails student;
 typedef struct util ArrayUtil;
@@ -44,3 +45,4 @@ int count(ArrayUtil, MatchFunc* , void*);
 int filter(ArrayUtil, MatchFunc*, void*, void**, int);
 int arrayEqual(int*, int*);
 void map(ArrayUtil, ArrayUtil, ConvertFunc*, void*);
+void forEach(ArrayUtil, OperationFunc*, void*);

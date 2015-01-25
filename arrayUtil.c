@@ -150,3 +150,12 @@ void map(ArrayUtil source, ArrayUtil destination, ConvertFunc* convert, void* hi
 		convert(hint, sourceItem, destinationItem);
 	}
 }
+
+void forEach(ArrayUtil source, OperationFunc* operation, void* hint){
+	int counter;
+	void *sourceItem;
+	for(counter = 0; counter < source.length; counter++){
+		sourceItem = (void*)&(source.base[counter*source.typeSize]);
+		operation(hint, sourceItem);
+	}
+}
