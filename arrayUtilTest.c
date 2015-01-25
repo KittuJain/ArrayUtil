@@ -547,3 +547,15 @@ void test_reduce_of_floating_point_values_can_also_be_conducted () {
 	void* return_value = reduce(util,addTwoValues,(void*)&hint,(void*)&initialValue);
 	assertEqual(*((float*)return_value),(float)18.29);
 }
+
+void* giveCharOfGreatestAsciiValue (void* hint, void* previousItem, void* item){
+	return (*(char*)previousItem > *(char*)item) ? previousItem : item;
+}
+
+void test_reduce_can_be_performed_for_charArray () {
+	char hint = 'm', initialValue = 'm';
+	char array[5] = {'h','e','l','l','o'};
+	ArrayUtil util={array,FLOAT_SIZE,5};
+	void* return_value = reduce(util,giveCharOfGreatestAsciiValue,(void*)&hint,(void*)&initialValue);
+	assertEqual(*((char*)return_value),'o');
+}
