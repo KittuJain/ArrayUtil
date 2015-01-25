@@ -159,3 +159,14 @@ void forEach(ArrayUtil source, OperationFunc* operation, void* hint){
 		operation(hint, sourceItem);
 	}
 }
+
+void* reduce(ArrayUtil util, ReducerFunc* reducer, void* hint , void* initialValue){
+	int counter;
+	void* sourceItem, *result;
+	for(counter = 0; counter < util.length; counter++){
+		sourceItem = (void*)&(util.base[counter*util.typeSize]);
+		result = reducer(hint, initialValue, sourceItem);
+		initialValue = result;
+	}
+	return result;
+}

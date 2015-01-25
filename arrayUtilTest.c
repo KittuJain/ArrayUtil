@@ -526,3 +526,24 @@ void test_forEach_converts_A_B_C_D_E_to_a_b_c_d_e_in_charArray(){
 	forEach(source,makeCursive,(void*)&hint);
 	assertEqual(areEqual(source,expected),1);
 }
+
+void* addTwoValues (void* hint, void* previousItem, void* item){
+	 *((float*)item) = *((float*)previousItem) + *((float*)item);
+	 return ((float*)item);
+}
+
+void test_reduce_of_1_2_3_4_gives_12 () {
+	int hint = 2, initialValue = 2;
+	int array[]={1,2,3,4};
+	ArrayUtil util={array,INT_SIZE,4};
+	void* return_value = reduce(util,addTwoValues,(void*)&hint,(void*)&initialValue);
+	assertEqual(*((int*)return_value),12);
+}
+
+void test_reduce_of_floating_point_values_can_also_be_conducted () {
+	float hint = 2, initialValue = 2.0;
+	float array[6] = {1.2,2.2,3.5,4.3,5.1};
+	ArrayUtil util={array,FLOAT_SIZE,5};
+	void* return_value = reduce(util,addTwoValues,(void*)&hint,(void*)&initialValue);
+	assertEqual(*((float*)return_value),(float)18.29);
+}
