@@ -67,22 +67,12 @@ ArrayUtil resize(ArrayUtil util, int length) {
 
 int findIndex(ArrayUtil util, void* element){
 	int count;
-	int length = sizeof(element);
-	
+	void *base;
 	for(count = 0; count < (util.length*util.typeSize); count++){
-		if(((float*)util.base)[count] == *((float*)element))
+		base = &(util.base)[count*util.typeSize];
+		if(!memcmp(base, element, util.typeSize))
 			return count;
 	}
-
-	for(count = 0; count < (util.length*util.typeSize); count++){
-		if(((char*)util.base)[count] == *((char*)element))
-			return count;
-	}
-
-	// while(count < (util.length * util.typeSize)){
-	// 	if(((char*)util.base)[count] == *((char*)element))
-	// 		return (count/util.typeSize);
-	// }
 	return -1;
 }
 
